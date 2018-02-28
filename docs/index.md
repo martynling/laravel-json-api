@@ -53,3 +53,35 @@ encode Eloquent models to JSON API resources, others will use a mixture of Eloqu
 or might not even be using Eloquent models.
 
 So we decided to refer to PHP object instances that are converted to JSON API resources as *records*.
+
+### Handling snake_case attributes
+
+**snake_case** eloquent model attributes are handled automatically by laravel-json-api via the `$attributes` property on the Hydrator and Schema resource units. The Schema needs the snake_case representation of the attribute and the Hydrator needs the kebab-case representation of the attribute. For example:
+
+Posts\Schema.php
+```
+class Schema extends EloquentSchema
+{
+    /**
+     * @var array|null
+     */
+    protected $attributes = [
+        'phone_number',
+        // ... other attributes
+    ];
+    ...
+```
+
+Posts\Hydrator.php
+```
+class Hydrator extends EloquentHydrator
+{
+    /**
+     * @var array|null
+     */
+    protected $attributes = [
+        'phone-number',
+        // ... other attributes
+    ];
+    ...
+```
